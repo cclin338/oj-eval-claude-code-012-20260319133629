@@ -196,7 +196,7 @@ public:
 		 * TODO iter++
 		 */
 		iterator operator++(int) {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->tail) {
 		        throw invalid_iterator();
 		    }
 		    iterator temp(*this);
@@ -207,7 +207,7 @@ public:
 		 * TODO ++iter
 		 */
 		iterator & operator++() {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->tail) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->next;
@@ -217,7 +217,7 @@ public:
 		 * TODO iter--
 		 */
 		iterator operator--(int) {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->head || node_ptr == map_ptr->head->next) {
 		        throw invalid_iterator();
 		    }
 		    iterator temp(*this);
@@ -228,7 +228,7 @@ public:
 		 * TODO --iter
 		 */
 		iterator & operator--() {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->head || node_ptr == map_ptr->head->next) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->prev;
@@ -284,7 +284,7 @@ public:
 		const_iterator(const iterator &other) : node_ptr(other.node_ptr), map_ptr(other.map_ptr) {}
 
 		const_iterator operator++(int) {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->tail) {
 		        throw invalid_iterator();
 		    }
 		    const_iterator temp(*this);
@@ -293,7 +293,7 @@ public:
 		}
 
 		const_iterator & operator++() {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->tail) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->next;
@@ -301,7 +301,7 @@ public:
 		}
 
 		const_iterator operator--(int) {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->head || node_ptr == map_ptr->head->next) {
 		        throw invalid_iterator();
 		    }
 		    const_iterator temp(*this);
@@ -310,7 +310,7 @@ public:
 		}
 
 		const_iterator & operator--() {
-		    if (node_ptr == nullptr) {
+		    if (node_ptr == nullptr || node_ptr == map_ptr->head || node_ptr == map_ptr->head->next) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->prev;
