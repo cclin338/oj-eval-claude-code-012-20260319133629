@@ -196,7 +196,7 @@ public:
 		 * TODO iter++
 		 */
 		iterator operator++(int) {
-		    if (node_ptr == nullptr || node_ptr->next == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    iterator temp(*this);
@@ -207,7 +207,7 @@ public:
 		 * TODO ++iter
 		 */
 		iterator & operator++() {
-		    if (node_ptr == nullptr || node_ptr->next == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->next;
@@ -217,7 +217,7 @@ public:
 		 * TODO iter--
 		 */
 		iterator operator--(int) {
-		    if (node_ptr == nullptr || node_ptr->prev == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    iterator temp(*this);
@@ -228,7 +228,7 @@ public:
 		 * TODO --iter
 		 */
 		iterator & operator--() {
-		    if (node_ptr == nullptr || node_ptr->prev == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->prev;
@@ -274,7 +274,7 @@ public:
 	};
 
 	class const_iterator {
-	private:
+	public:
 	    const Node *node_ptr;
 	    const linked_hashmap *map_ptr;
 	public:
@@ -284,7 +284,7 @@ public:
 		const_iterator(const iterator &other) : node_ptr(other.node_ptr), map_ptr(other.map_ptr) {}
 
 		const_iterator operator++(int) {
-		    if (node_ptr == nullptr || node_ptr->next == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    const_iterator temp(*this);
@@ -293,7 +293,7 @@ public:
 		}
 
 		const_iterator & operator++() {
-		    if (node_ptr == nullptr || node_ptr->next == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->next;
@@ -301,7 +301,7 @@ public:
 		}
 
 		const_iterator operator--(int) {
-		    if (node_ptr == nullptr || node_ptr->prev == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    const_iterator temp(*this);
@@ -310,7 +310,7 @@ public:
 		}
 
 		const_iterator & operator--() {
-		    if (node_ptr == nullptr || node_ptr->prev == nullptr) {
+		    if (node_ptr == nullptr) {
 		        throw invalid_iterator();
 		    }
 		    node_ptr = node_ptr->prev;
@@ -505,10 +505,22 @@ public:
 	        delete current;
 	        current = next;
 	    }
+
+	    // Clear hash table too
+	    for (size_t i = 0; i < hash_capacity; ++i) {
+	        HashNode *current = hash_table[i];
+	        while (current) {
+	            HashNode *next = current->next;
+	            delete current;
+	            current = next;
+	        }
+	        hash_table[i] = nullptr;
+	    }
+
 	    node_count = 0;
+	    hash_size = 0;
 	    head->next = tail;
 	    tail->prev = head;
-	    hash_size = 0;
 	}
 
 	/**
